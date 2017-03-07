@@ -35,7 +35,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    <a class="navbar-brand" href="{{ url('/home') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
                 </div>
@@ -60,7 +60,7 @@
 
                                 <ul class="dropdown-menu" role="menu">
 									<li>
-										<a href='/home/profile'><img id='preview_image' src='/img/no-image.png' class='img-responsive' alt='Foto Profil'>Profile</a>
+										<a href='/home/profile'>Profile</a>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();

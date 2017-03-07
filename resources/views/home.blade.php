@@ -37,24 +37,39 @@
 							if($allow) {
 								$background = 'DFF0D8'; 
 							}
+							
+							if(Auth::user()->picture) {
+								$source = '/img/'.Auth::user()->picture;
+							} else {                   
+								$source = '/img/no-image.png';
+							}
 						@endphp
 						
-					<div class='well well-sm' style='background-color:#{{ $background }} !important'>
-						<ul class='media-list'>
-							<li class='media'>
-								<div class='media-left'>
-									<a href='#'>
-										<img class='media-object' src='' alt=''>
+					<div class='panel panel-default' style='background-color:#{{ $background }} !important'>
+						<div class='panel-body'>							
+							<div class="media">
+								@if(!$allow)
+								  <div class="media-left">
+									<a href="#">
+									  <img id='preview_image' src='{{ $source }}' width='75' class='media-object' alt='Foto Profil'>
 									</a>
-								</div>
-								<div class='media-body'>
-									<div @if($allow) class='pull-right' @endif>
+								  </div>
+								@endif
+								<div class="media-body">
+									<div @if($allow) class='pull-right' @endif style='margin-top:2%'>
 										<h4 class="media-heading">{{ $row->user->name }}</h4>
 										{{ $row->text }}
-									</div>
+									</div>	
 								</div>
-							</li>
-						</ul>
+								@if($allow)
+								<div class="media-right">
+									<a href="#">
+									  <img id='preview_image' src='{{ $source }}' width='75' class='media-object' alt='Foto Profil'>
+									</a>
+								</div>
+								@endif
+							</div>
+						</div>							
 					</div>
 					@endforeach
                 </div>

@@ -58,13 +58,24 @@ class HomeController extends Controller
 		$this->validate($request, [
 			'name'	=> 'required|min:4',
 			'email'	=> 'required|email',
-			'password' => 'required|min:5'
+			'password' => 'required|min:5',
+			'foto'	=> 'image'
 		]);
+		
+		$filename = '';
+		
+		if($request->hasFile('foto') && $request->foto->isValid()){
+			$filename = $request->name.'.'.$request->foto->getClientOriginalExtension();			
+			$request->foto->move(base_path().'\public\img', $request->name.'.'.$request->foto->getClientOriginalExtension());
+		} else {
+			dd($request->foto->getErrorMessage());			
+		}
 		
 		$tweet = User::find(Auth::user()->id);
 		$tweet->name = $request->name;
 		$tweet->email = $request->email;
 		$tweet->password = bcrypt($request->password);
+		$tweet->picture = $filename;
 		$tweet->save();
 		
 		return redirect('home/profile');
