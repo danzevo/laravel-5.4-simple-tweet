@@ -62,22 +62,41 @@ class HomeController extends Controller
 			'foto'	=> 'image'
 		]);
 		
+		
 		$filename = '';
 		
 		if($request->hasFile('foto') && $request->foto->isValid()){
 			$filename = $request->name.'.'.$request->foto->getClientOriginalExtension();			
 			$request->foto->move(base_path().'\public\img', $request->name.'.'.$request->foto->getClientOriginalExtension());
-		} else {
-			dd($request->foto->getErrorMessage());			
-		}
-		
+			
+			if($request->foto->getErrorMessage())
+				dd($request->foto->getErrorMessage());
+		} 
+				
 		$tweet = User::find(Auth::user()->id);
 		$tweet->name = $request->name;
 		$tweet->email = $request->email;
 		$tweet->password = bcrypt($request->password);
 		$tweet->picture = $filename;
-		$tweet->save();
+		$save = $tweet->save();
 		
+		if($save)
+		\Session::flash('flash_message', 
+		'<div class="alert alert-success alert-dismissible" role="alert">
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		   </button>
+		   Data berhasil Disimpan !
+		</div>');
+		else
+		\Session::flash('flash_message', 
+		'<div class="alert alert-success alert-dismissible" role="alert">
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		   </button>
+		   Data gagal Disimpan !
+		</div>');
+	
 		return redirect('home/profile');
 	}
 }

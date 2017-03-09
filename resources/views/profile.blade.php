@@ -13,6 +13,9 @@
 							<input type='hidden' name='_method' value='PUT'>
 							
 							<div class='row'>
+								@if(Session::has('flash_message'))
+									{!! session('flash_message') !!}
+								@endif
 								<div class='col-xs-3 col-md-3'>
 									<div class='form-group'>
 										<div class='col-xs-12 col-md-12'>
